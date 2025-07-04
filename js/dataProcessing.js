@@ -1,6 +1,24 @@
-// File: js/dataProcessing.js (Final dengan Fungsi Kalkulasi Ulang Global)
+// File: js/dataProcessing.js (Final dengan Perbaikan Kalkulasi Speed & Workrate)
 
 const seedDataKey = 'seedData';
+
+// FUNGSI BARU (DIPINDAHKAN KE SINI) untuk menghitung atribut gabungan
+function calculateUtilityScores(players) {
+    return players.map(player => {
+        // Pastikan atribut ada dan merupakan angka
+        const pac = Number(player.Pac || 0);
+        const acc = Number(player.Acc || 0);
+        const wor = Number(player.Wor || 0);
+        const sta = Number(player.Sta || 0);
+
+        // Hitung dan tambahkan ke objek pemain
+        player.Speed = ((pac + acc) / 2).toFixed(1);
+        player.Workrate = ((wor + sta) / 2).toFixed(1);
+        
+        return player;
+    });
+}
+
 
 // FUNGSI KALKULASI ULANG GLOBAL - bisa dipanggil dari mana saja
 function recalculateScoresGlobally() {
@@ -9,14 +27,15 @@ function recalculateScoresGlobally() {
         const newSeedData = loadLocalData();
         const scores = calculateScores(rawPlayerData, newSeedData);
         if (scores && !scores.errorOccurred) {
-            const playersWithHighestRoles = findHighestScoringRoles(scores.playerScores, newSeedData);
+            // Panggil fungsi kalkulasi utility di sini juga
+            const playersWithScores = calculateUtilityScores(scores.playerScores);
+            const playersWithHighestRoles = findHighestScoringRoles(playersWithScores, newSeedData);
             initializeBootstrapTable(playersWithHighestRoles);
         } else {
             showToast(scores.errorMessage, 'Calculation Error', 'error');
         }
     }
 }
-
 
 function dispatchSeedDataLoadedEvent(seedData) {
     const event = new CustomEvent('SeedDataLoaded', { detail: seedData });
@@ -52,7 +71,6 @@ function reloadSeedData() {
     loadSeedData();
     clearSelectedRoles();
     showToast("Default role data has been restored.", "Defaults Restored", "success");
-    // Panggil fungsi kalkulasi ulang GLOBAL
     recalculateScoresGlobally();
 }
 
