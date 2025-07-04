@@ -1,0 +1,158 @@
+/* --- Variable & General Styling --- */
+:root {
+    --primary-glow-rgb: 79, 125, 243; /* Glow color, can match Bootstrap's primary */
+    --bs-border-width: 2px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Custom Scrollbar for a modern touch */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(var(--bs-secondary-color-rgb), 0.5);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--bs-secondary-color-rgb), 0.7);
+}
+
+
+/* --- Glassmorphism Effect --- */
+.bg-glass {
+    background: rgba(var(--bs-tertiary-bg-rgb), 0.7);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+}
+
+/* --- Component Styling --- */
+/* Navbar */
+.navbar.bg-glass {
+    border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+}
+
+/* Hero Section */
+.hero-section {
+    background-image: 
+        radial-gradient(at 20% 25%, hsla(212, 80%, 55%, 0.2) 0px, transparent 50%),
+        radial-gradient(at 80% 30%, hsla(289, 70%, 50%, 0.15) 0px, transparent 50%),
+        radial-gradient(at 20% 80%, hsla(355, 70%, 50%, 0.1) 0px, transparent 50%),
+        radial-gradient(at 80% 85%, hsla(190, 70%, 50%, 0.15) 0px, transparent 50%);
+    border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+}
+
+/* Cards */
+.card-step {
+    border-width: var(--bs-border-width);
+    border-color: transparent;
+    transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    position: relative; /* Menetapkan konteks tumpukan lokal */
+    z-index: 1; /* Default z-index untuk kartu */
+}
+
+.card-step:hover {
+    transform: translateY(-5px);
+    border-color: rgba(var(--primary-glow-rgb), 0.5);
+    box-shadow: 0 0.5rem 1.5rem rgba(var(--primary-glow-rgb), 0.15) !important;
+    z-index: 2; /* Kartu yang di-hover akan naik lapisannya */
+}
+
+.card-header, .card-footer {
+    background-color: transparent;
+    border-color: rgba(var(--bs-body-color-rgb), 0.1) !important;
+}
+
+.selected-roles .placeholder-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 100px;
+    user-select: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.selected-roles:has(.btn) .placeholder-text {
+    display: none;
+}
+
+
+/* Modal Styling */
+#roleList .dropdown-item { cursor: pointer; padding: 0.75rem 1rem; border-radius: var(--bs-border-radius); transition: background-color 0.2s ease; }
+#roleList .dropdown-item:hover { background-color: rgba(var(--bs-primary-rgb), 0.1); }
+#roleList .icon-check { color: var(--bs-success); }
+
+@media (min-width: 992px) { #roleList { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; } }
+
+/* Toast positioning */
+.toast-container { z-index: 2100; }
+.toast { background-color: var(--bs-tertiary-bg); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+
+
+/* --- Table Styling & New Features UI --- */
+#custom-toolbar {
+    padding: 0.75rem !important;
+    background-color: rgba(var(--bs-tertiary-bg-rgb), 0.7);
+    border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+}
+
+#playersTable thead, .bootstrap-table .filter-control {
+    background-color: rgba(var(--bs-tertiary-bg-rgb), 0.9);
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+#playersTable th { font-weight: 600; }
+.table-hover tbody tr:hover { background-color: rgba(var(--bs-primary-rgb), 0.1); }
+
+.bootstrap-table .filter-control input,
+.bootstrap-table .filter-control select {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    width: 100%;
+    border-radius: var(--bs-border-radius-sm);
+}
+
+/* Comparison Modal Table Styling */
+#comparison-content .table { background-color: transparent; }
+#comparison-content .table th { background-color: rgba(var(--bs-tertiary-bg-rgb), 0.95); position: sticky; top: 0; z-index: 2; }
+#comparison-content .table td:first-child,
+#comparison-content .table th:first-child { position: sticky; left: 0; z-index: 1; background-color: var(--bs-tertiary-bg); }
+#comparison-content .table .table-success { --bs-table-bg: rgba(var(--bs-success-rgb), 0.2) !important; --bs-table-color: var(--bs-success-text-emphasis) !important; }
+
+/* ======================================================== */
+/* PERBAIKAN FINAL UNTUK DROPDOWN PRESET (Z-INDEX)          */
+/* ======================================================== */
+.card-footer .dropdown {
+    position: static; /* Mengubah cara Popper.js menghitung posisi */
+}
+#presets-list {
+    /* Memaksa dropdown untuk memiliki lapisan yang sangat tinggi */
+    z-index: 2050 !important;
+}
+
+
+/* --- Fullscreen Focus Mode Styling --- */
+body.fullscreen-active { overflow: hidden; }
+body.fullscreen-active main > *:not(.card-fullscreen) { display: none; }
+body.fullscreen-active nav,
+body.fullscreen-active footer { display: none; }
+
+.card-fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000; margin: 0 !important; border-radius: 0; display: flex; flex-direction: column; }
+.card-fullscreen .card-body { flex-grow: 1; overflow-y: hidden; display: flex; flex-direction: column; padding: 0 !important; }
+.card-fullscreen .table-responsive { height: 100%; }
+.card-fullscreen .fixed-table-container { height: calc(100% - 45px) !important; }
