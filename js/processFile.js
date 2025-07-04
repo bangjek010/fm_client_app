@@ -1,6 +1,5 @@
-// File: js/processFile.js (Diperbarui untuk menyimpan data mentah)
+// File: js/processFile.js (Diperbarui untuk memanggil fungsi utility global)
 
-// Variabel global untuk menyimpan data pemain asli (tanpa skor)
 let rawPlayerData = [];
 
 function readFile(file) {
@@ -20,20 +19,22 @@ async function processFile(file) {
         const table = await validateHtmlContent(content);
 
         if (table) {
-            // Simpan data mentah ke variabel global
             rawPlayerData = convertTableToObject(table);
             
-            // Lakukan kalkulasi seperti biasa
             const seedData = loadLocalData();
             const scores = calculateScores(rawPlayerData, seedData);
 
             if (scores && !scores.errorOccurred) {
                 const numberOfPlayers = scores.playerScores.length;
                 const formattedNumberOfPlayers = numberOfPlayers.toLocaleString();
-                const timeTakenMs = scores.timeTaken;
-
-                const playersWithHighestRoles = findHighestScoringRoles(scores.playerScores, seedData);
-                showToast(`Calculated all scores for ${formattedNumberOfPlayers} players in ${timeTakenMs} ms`, 'Calculation Complete', 'success');
+                // Waktu tidak didefinisikan di calculateScores baru, jadi kita hapus
+                // const timeTakenMs = scores.timeTaken; 
+                // showToast(`Calculated all scores for ${formattedNumberOfPlayers} players in ${timeTakenMs} ms`, 'Calculation Complete', 'success');
+                showToast(`Calculated all scores for ${formattedNumberOfPlayers} players`, 'Calculation Complete', 'success');
+                
+                // Panggil fungsi utility scores yang ada di dataProcessing.js
+                const playersWithUtilityScores = calculateUtilityScores(scores.playerScores);
+                const playersWithHighestRoles = findHighestScoringRoles(playersWithUtilityScores, seedData);
                 
                 initializeBootstrapTable(playersWithHighestRoles);
             } else if (scores.errorOccurred) {
@@ -87,10 +88,12 @@ function convertTableToObject(table) {
         }, []);
         natIndexes.forEach(natIndex => {
             for (let i = 1; i < Math.min(rows.length, 5); i++) {
-                let sampleCellContent = rows[i].querySelectorAll('td')[natIndex].textContent.trim();
-                if (/^[A-Za-z]{3}$/.test(sampleCellContent)) {
-                    headers[natIndex] = 'Nationality';
-                    break;
+                if (rows[i].querySelectorAll('td')[natIndex]) { // Pastikan selnya ada
+                    let sampleCellContent = rows[i].querySelectorAll('td')[natIndex].textContent.trim();
+                    if (/^[A-Za-z]{3}$/.test(sampleCellContent)) {
+                        headers[natIndex] = 'Nationality';
+                        break;
+                    }
                 }
             }
         });
@@ -101,7 +104,7 @@ function convertTableToObject(table) {
         const cells = row.querySelectorAll('td');
         cells.forEach((cell, cellIndex) => {
             let header = headers[cellIndex];
-            if (header) { // Pastikan header ada
+            if (header) {
                 rowData[header] = cell.textContent.trim();
             }
         });
