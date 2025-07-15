@@ -1,13 +1,12 @@
 function initializeBootstrapTable(data) {
-    // Hide the placeholder and show the table container FIRST
+
     $('#table-placeholder').hide();
     $('#table-container').show();
 
     var useWageTitle = data.some(item => item.Wage !== undefined);
 
-    // Define static columns with checkbox and filter controls
     var columns = [
-        { field: 'state', checkbox: true }, // Kolom untuk Checkbox
+        { field: 'state', checkbox: true },
         { field: 'Inf', title: 'Inf', sortable: true, visible: false },
         { field: 'Name', title: 'Name', sortable: true, filterControl: 'input' },
         { field: 'Age', title: 'Age', sortable: true, filterControl: 'input' },
@@ -34,7 +33,7 @@ function initializeBootstrapTable(data) {
         { field: 'Height', title: 'Height', sortable: true, visible: false, filterControl: 'input' },
     ];
 
-    // Retrieve selectedRoles from localStorage and append as dynamic columns
+
     var selectedRoles = JSON.parse(localStorage.getItem('selectedRoles')) || [];
     selectedRoles.forEach(function (role) {
         columns.push({
@@ -42,7 +41,7 @@ function initializeBootstrapTable(data) {
             title: role.code,
             sortable: true,
             titleTooltip: role.name,
-            filterControl: 'input' // Filter untuk kolom peran
+            filterControl: 'input' 
         });
     });
 
@@ -60,7 +59,6 @@ function initializeBootstrapTable(data) {
     $table.bootstrapTable({
         data: data,
         columns: columns,
-        // Opsi BARU untuk fitur-fitur
         clickToSelect: true,
         filterControl: true,
         filterShowClear: true,
@@ -71,7 +69,6 @@ function initializeBootstrapTable(data) {
     });
 }
 
-// Fungsi BARU untuk mengelola tombol bandingkan
 function updateCompareButtonState() {
     var selections = $('#playersTable').bootstrapTable('getSelections');
     var count = selections.length;
