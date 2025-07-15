@@ -44,10 +44,8 @@ function handleSelection() {
         var roleCode = $(this).find('code').attr('id');
         var role = $(this).find('.form-check-label').attr('id');
         var icon = $(this).find('.icon-check');
-
-        // Check if the click is on the edit-role button or any of its children
         if ($(event.target).closest('.edit-role').length === 0) {
-            icon.toggle(); // Toggle icon visibility only if not clicking on edit-role
+            icon.toggle();
             var isSelected = icon.is(':visible');
 
             if (!isSelected) {
