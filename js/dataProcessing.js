@@ -1,17 +1,14 @@
-// File: js/dataProcessing.js (Final dengan Perbaikan Kalkulasi Speed & Workrate)
 
 const seedDataKey = 'seedData';
 
-// FUNGSI BARU (DIPINDAHKAN KE SINI) untuk menghitung atribut gabungan
 function calculateUtilityScores(players) {
     return players.map(player => {
-        // Pastikan atribut ada dan merupakan angka
+
         const pac = Number(player.Pac || 0);
         const acc = Number(player.Acc || 0);
         const wor = Number(player.Wor || 0);
         const sta = Number(player.Sta || 0);
 
-        // Hitung dan tambahkan ke objek pemain
         player.Speed = ((pac + acc) / 2).toFixed(1);
         player.Workrate = ((wor + sta) / 2).toFixed(1);
         
@@ -19,15 +16,13 @@ function calculateUtilityScores(players) {
     });
 }
 
-
-// FUNGSI KALKULASI ULANG GLOBAL - bisa dipanggil dari mana saja
 function recalculateScoresGlobally() {
     if (rawPlayerData && rawPlayerData.length > 0) {
         showToast("Recalculating scores with new weights...", "Processing", "success");
         const newSeedData = loadLocalData();
         const scores = calculateScores(rawPlayerData, newSeedData);
         if (scores && !scores.errorOccurred) {
-            // Panggil fungsi kalkulasi utility di sini juga
+
             const playersWithScores = calculateUtilityScores(scores.playerScores);
             const playersWithHighestRoles = findHighestScoringRoles(playersWithScores, newSeedData);
             initializeBootstrapTable(playersWithHighestRoles);
