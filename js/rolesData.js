@@ -1,5 +1,3 @@
-// File: js/rolesData.js
-// This file embeds your role data directly into the app, making it fully offline.
 
 const rolesJSON = [
     {
