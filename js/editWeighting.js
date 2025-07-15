@@ -19,7 +19,7 @@ function editInit() {
             var inputValue = $(this).val();
             updatedRoleData[inputName] = $(this).attr('type') === 'number' ? parseFloat(inputValue) : inputValue;
         });
-        updateRoleData(updatedRoleData, true); // true menandakan untuk hitung ulang
+        updateRoleData(updatedRoleData, true);
         $('#editRoleModal').modal('hide');
     });
 
@@ -30,9 +30,9 @@ function editInit() {
         const defaultRoleData = rolesJSON.find(role => role.RoleCode === roleCodeToReset);
         if (!defaultRoleData) return showToast("Could not find default data for this role.", "Error", "error");
 
-        updateRoleData(defaultRoleData, true); // Langsung panggil updateRoleData dengan data default
+        updateRoleData(defaultRoleData, true);
         
-        // Perbarui form secara langsung
+
         const $form = $('#editRoleForm');
         for (const key in defaultRoleData) {
             if (defaultRoleData.hasOwnProperty(key)) {
@@ -43,7 +43,6 @@ function editInit() {
     });
 }
 
-// Fungsi update yang sekarang menjadi pusat logika penyimpanan
 function updateRoleData(roleData, shouldRecalculate) {
     let allRolesData = loadLocalData();
     const roleIndex = allRolesData.findIndex(role => role.RoleCode === roleData.RoleCode);
@@ -51,15 +50,14 @@ function updateRoleData(roleData, shouldRecalculate) {
     if (roleIndex !== -1) {
         allRolesData[roleIndex] = roleData;
     } else {
-        // Jika ini peran baru (fitur masa depan), bisa ditambahkan di sini
-        // Untuk sekarang, kita asumsikan peran selalu ada
+
         allRolesData.push(roleData);
     }
     
     localStorage.setItem(seedDataKey, JSON.stringify(allRolesData));
     
     if (shouldRecalculate) {
-        // Panggil fungsi kalkulasi ulang GLOBAL
+
         recalculateScoresGlobally();
     }
 }
