@@ -1,4 +1,3 @@
-// File: js/processFile.js (Diperbarui untuk memanggil fungsi utility global)
 
 let rawPlayerData = [];
 
@@ -27,12 +26,9 @@ async function processFile(file) {
             if (scores && !scores.errorOccurred) {
                 const numberOfPlayers = scores.playerScores.length;
                 const formattedNumberOfPlayers = numberOfPlayers.toLocaleString();
-                // Waktu tidak didefinisikan di calculateScores baru, jadi kita hapus
-                // const timeTakenMs = scores.timeTaken; 
-                // showToast(`Calculated all scores for ${formattedNumberOfPlayers} players in ${timeTakenMs} ms`, 'Calculation Complete', 'success');
+
                 showToast(`Calculated all scores for ${formattedNumberOfPlayers} players`, 'Calculation Complete', 'success');
-                
-                // Panggil fungsi utility scores yang ada di dataProcessing.js
+
                 const playersWithUtilityScores = calculateUtilityScores(scores.playerScores);
                 const playersWithHighestRoles = findHighestScoringRoles(playersWithUtilityScores, seedData);
                 
