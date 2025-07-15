@@ -5,21 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FM Player Scoring - Modern</title>
-
-  <!-- Icons and Frameworks -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <link href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.css">
-
-  <!-- Custom Styles -->
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="js/libraries/sticky-header/bootstrap-table-sticky-header.css">
 </head>
 
 <body>
-
-  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg sticky-top bg-glass">
     <div class="container">
       <a class="navbar-brand" href="#">
@@ -40,11 +34,7 @@
       </div>
     </div>
   </nav>
-
-  <!-- Main Content -->
   <main class="container-fluid my-5 px-md-4">
-
-    <!-- Hero Section -->
     <section class="text-center p-5 mb-5 rounded-4 hero-section">
         <h1 class="display-4 fw-bold">FM24 Player Scoring System</h1>
         <p class="lead col-lg-8 mx-auto text-body-secondary">Analyze your Football Manager squad's suitability for different roles with this powerful tool.</p>
@@ -53,8 +43,6 @@
           <a href="https://www.mediafire.com/file/ymf6xhw0bk4enjj/FM24_files.zip/file" target="_blank" class="btn btn-secondary btn-lg shadow-sm"><i class="bi bi-download me-2"></i>Download Views</a>
         </div>
     </section>
-
-    <!-- Step-by-Step Guide -->
     <div class="row g-4">
       <div class="col-12 col-lg-6">
         <div class="card h-100 card-step bg-glass">
@@ -68,7 +56,6 @@
           <div class="card-body" style="min-height: 150px; max-height: 25vh; overflow-y: auto;">
             <div class="selected-roles d-flex flex-wrap gap-2"><div class="placeholder-text w-100 text-center text-body-secondary"><i class="bi bi-tags" style="font-size: 2rem;"></i><p class="mt-2 mb-0">Click 'Add' to select roles.</p></div></div>
           </div>
-<!-- UI PRESET FINAL (dengan data-bs-display="static") -->
           <div class="card-footer bg-transparent">
             <div class="input-group input-group-sm">
                 <div class="dropdown flex-grow-1">
@@ -79,7 +66,6 @@
                         <i class="bi bi-collection-fill me-1"></i> Role Presets
                     </button>
                     <ul class="dropdown-menu w-100" id="presets-list">
-                        <!-- Preset items will be loaded here by JS -->
                         <li><h6 class="dropdown-header">Load Preset</h6></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><span class="dropdown-item-text text-muted small px-3">No presets saved.</span></li>
@@ -106,8 +92,7 @@
         </div>
       </div>
     </div>
-    
-    <!-- Results Table -->
+
     <div class="card mt-5 card-step bg-glass" id="results-card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0 fw-bold"><span class="badge bg-primary-subtle text-primary-emphasis rounded-pill me-2 fs-6">3</span> Analyze Players</h5>
@@ -123,7 +108,6 @@
     </div>
   </main>
 
-  <!-- Modals -->
   <div class="modal fade" id="roleListModal" tabindex="-1"><div class="modal-dialog modal-xl"><div class="modal-content bg-glass"><div class="modal-header border-bottom-0"><input type="text" class="form-control" id="search-roles" placeholder="Search roles..." autocomplete="off"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div id="roleList" style="max-height: 75vh; overflow-y: auto;"></div></div><div class="modal-footer border-top-0 justify-content-between"><div><button type="button" class="btn btn-outline-danger" onclick="clearSelectedRoles()">Clear All</button><button type="button" class="btn btn-outline-primary" onclick="selectAllRoles()">Select All</button></div><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div></div></div></div>
   <div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="editRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -133,10 +117,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
-                <!-- Dynamic form will be injected here -->
+
             </div>
             <div class="modal-footer border-top-0">
-                <!-- TOMBOL BARU DITAMBAHKAN DI SINI -->
+
                 <button type="button" class="btn btn-outline-warning me-auto" id="resetSingleRoleBtn">
                     <i class="bi bi-arrow-counterclockwise"></i> Reset This Role
                 </button>
@@ -148,13 +132,10 @@
 </div>
   <div class="modal fade" id="comparisonModal" tabindex="-1"><div class="modal-dialog modal-fullscreen"><div class="modal-content bg-glass"><div class="modal-header"><div class="d-flex align-items-center"><h5 class="modal-title me-3">Player Comparison</h5><select id="comparison-role-filter" class="form-select form-select-sm" style="width: auto;"></select></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div id="comparison-content" class="table-responsive"></div></div></div></div></div>
 
-  <!-- Toast Container -->
   <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container"></div>
 
-  <!-- Footer -->
   <footer class="container-fluid mt-5 py-4 border-top"><div class="d-flex flex-column flex-sm-row justify-content-between align-items-center"><div class="text-center text-sm-start mb-3 mb-sm-0"><a href="#" class="text-body-secondary me-2"><i class="bi bi-github" style="font-size: 1.5rem;"></i></a><small class="text-body-secondary">Thanks to Fatheed7 & HarrisonRClark</small></div><a href="#" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important; width: auto !important;"></a></div></footer>
-  
-  <!-- Scripts -->
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
@@ -164,8 +145,7 @@
   <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/extensions/export/bootstrap-table-export.min.js"></script>
-  
-  <!-- SCRIPT LOKAL UNTUK MODE OFFLINE -->
+
   <script src="js/rolesData.js"></script> 
   
   <script src="js/dataProcessing.js"></script>
